@@ -26,7 +26,10 @@ app.set('views', 'views');
 app.use(express.urlencoded({ extended: true }));
 
 // 4. Connexion MongoDB (options dépréciées supprimées)
-mongoose.connect('mongodb://localhost:27017/respirateur')
+mongoose.connect('mongodb://localhost:27017/respirateur', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -43,6 +46,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: { 
       secure: false,
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 // 1 jour
     }
   }));

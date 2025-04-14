@@ -17,9 +17,20 @@ const User = mongoose.model('user', schemaAuth);
 
 exports.signupFunctionModel = async (name, email, password, specialite, numerodetelephone) => {
     try {
+        // Validation de l'email
+        if (!email || !email.includes('@')) {
+            throw new Error('Veuillez fournir une adresse email valide');
+        }
+
+        // Vérification de l'existence de l'utilisateur
         const userExists = await User.findOne({ email });
         if (userExists) {
-            throw new Error('Email est déjà utilisé');
+            throw new Error('Cet email est déjà utilisé');
+        }
+
+        // Validation du mot de passe
+        if (!password || password.length < 6) {
+            throw new Error('Le mot de passe doit contenir au moins 6 caractères');
         }
 
         const hPassword = await bcrypt.hash(password, 10);
@@ -29,12 +40,10 @@ exports.signupFunctionModel = async (name, email, password, specialite, numerode
             password: hPassword,
             specialite,
             numerodetelephone
-            
         });
 
-
         await user.save();
-        return 'Enregistré avec succès !';
+        return user; // Retourne l'utilisateur créé plutôt qu'un message
     } catch (err) {
         throw err;
     }

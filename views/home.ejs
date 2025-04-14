@@ -2,6 +2,20 @@
 
         <!-- end header section -->
 
+        
+<% if (user) { %>
+  <div class="alert alert-success">
+    Connecté en tant que: <%= user.email %> | 
+    <a href="/logout">Déconnexion</a>
+  </div>
+<% } else { %>
+  <div class="alert alert-warning">
+    Non connecté | <a href="/login">Connexion</a>
+  </div>
+<% } %>
+
+
+
 
 
 

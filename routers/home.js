@@ -19,21 +19,23 @@ router.get('/homes/:id', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-    if (!req.session.userId) {
+    console.log("Session dans /:", req.session.user); // Debug
+    
+    if (!req.session.user) {
+        console.log("Non connecté, redirection vers login");
         return res.redirect('/login');
     }
-    
+
     try {
-        // Récupérez les données depuis MongoDB
-        const homes = await Home.find({}); // Ou toute autre requête nécessaire
+        const homes = await Home.find({});
+        console.log("Nombre de cartes trouvées:", homes.length); // Debug
         
-        // Passez les données à la vue
-        res.render('home', { 
+        res.render('home', {
             homes: homes,
-            user: req.session.user // Si vous avez besoin des infos utilisateur
+            user: req.session.user
         });
     } catch (err) {
-        console.error(err);
+        console.error("Erreur chargement home:", err);
         res.status(500).send('Erreur serveur');
     }
 });
