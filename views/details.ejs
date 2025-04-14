@@ -1,0 +1,112 @@
+<%- include('parts/top.ejs') %>
+<br>
+<br>
+<br>
+<br>
+<div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <img style="height: 350px" src="/uploads/<%= home.images %>" alt="">
+        <h3><%= home.name %></h3>  
+        <br>
+        <br>
+        <h3>connecté✅</h3> 
+      </div>
+      <div class="col">
+        <!-- Icône d'alerte (visible seulement si batterie < 20%) -->
+        <div id="batteryAlertIcon" class="text-danger mb-3" style="display: none;">
+          <i class="fas fa-exclamation-triangle fa-2x"></i>
+          <span class="ms-2">Niveau de charge critique!</span>
+        </div>
+      
+        <div class="progress" style="height: 30px;">
+          <div id="batteryBar" class="progress-bar 
+            <%= home.batteryLevel < 20 ? 'bg-danger' : 
+                home.batteryLevel < 50 ? 'bg-warning' : 'bg-success' %>" 
+            style="width: <%= home.batteryLevel %>%;">
+            <span id="batteryValue"><%= home.batteryLevel %>%</span>
+          </div>
+        </div>
+        <p id="lastUpdate" class="mt-2">
+          Dernière mise à jour: <%= new Date(home.lastUpdate).toLocaleString() %>
+        </p>
+      </div>
+      
+      <script>
+        const deviceId = '<%= home._id %>';
+        const ws = new WebSocket(`ws://${window.location.host}`);
+        const batteryAlertIcon = document.getElementById('batteryAlertIcon');
+      
+        // Fonction pour mettre à jour l'affichage
+        function updateBatteryDisplay(level, timestamp) {
+          const batteryBar = document.getElementById('batteryBar');
+          const batteryValue = document.getElementById('batteryValue');
+          
+          // Mise à jour des valeurs
+          batteryValue.textContent = `${level}%`;
+          batteryBar.style.width = `${level}%`;
+          document.getElementById('lastUpdate').textContent = 
+            `Dernière mise à jour: ${new Date(timestamp).toLocaleString()}`;
+          
+          // Changement de couleur et icône d'alerte
+          if (level < 20) {
+            batteryBar.classList.remove('bg-success', 'bg-warning');
+            batteryBar.classList.add('bg-danger');
+            batteryAlertIcon.style.display = 'block'; // Afficher l'icône
+            showBatteryAlert(); // Afficher aussi la notification popup
+          } else if (level < 50) {
+            batteryBar.classList.remove('bg-success', 'bg-danger');
+            batteryBar.classList.add('bg-warning');
+            batteryAlertIcon.style.display = 'none'; // Cacher l'icône
+          } else {
+            batteryBar.classList.remove('bg-warning', 'bg-danger');
+            batteryBar.classList.add('bg-success');
+            batteryAlertIcon.style.display = 'none'; // Cacher l'icône
+          }
+        }
+      
+        // Fonction pour afficher une alerte popup (optionnelle)
+        function showBatteryAlert() {
+          // Votre code existant pour l'alerte popup...
+        }
+      
+        // Afficher/cacher l'icône au chargement initial
+        if (<%= home.batteryLevel < 20 %>) {
+          batteryAlertIcon.style.display = 'block';
+        }
+      
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ deviceId }));
+        };
+      
+        ws.onmessage = (e) => {
+          const data = JSON.parse(e.data);
+          updateBatteryDisplay(data.batteryLevel, data.lastUpdate);
+        };
+      </script>
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>  
+
+<%- include('parts/bottom.ejs') %>

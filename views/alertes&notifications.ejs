@@ -1,0 +1,102 @@
+<%- include('parts/top.ejs')%>
+
+
+
+
+
+
+<div class="container text-center">
+    <div class="row">
+      <div class="col">
+
+
+
+
+
+
+
+        
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Notifications:</h2>
+  
+  <div id="alertsContainer">
+    <% if (alerts && alerts.length > 0) { %>
+      <% alerts.forEach(alert => { %>
+        <div class="alert alert-<%= alert.level === 'critical' ? 'danger' : 'warning' %>">
+          <% if (alert.type === 'alert') { %>
+            <button class="btn-close" onclick="markAsRead('<%= alert.homeId %>', '<%= alert._id %>')"></button>
+          <% } %>
+          <strong><%= alert.deviceName %></strong> - <%= alert.message %>
+          <small class="text-muted float-end">
+            <%= alert.timestamp ? new Date(alert.timestamp).toLocaleString() : new Date().toLocaleString() %>
+          </small>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <div class="alert alert-info">
+        Aucune alerte active pour le moment.
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<script>
+    // Marquer une alerte comme lue
+    function markAsRead(homeId, alertId) {
+      fetch(`/alerts/${homeId}/${alertId}/read`, {
+        method: 'POST'
+      }).then(response => {
+        if (response.ok) {
+          document.querySelector(`[onclick="markAsRead('${homeId}', '${alertId}')"]`).parentElement.remove();
+        }
+      });
+    }
+  
+    // Écouter les changements de batterie
+    const ws = new WebSocket(`ws://${window.location.host}`);
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      
+      // Si c'est une mise à jour de batterie
+      if (data.batteryLevel !== undefined) {
+        if (data.batteryLevel < 20) {
+          const alertsContainer = document.getElementById('alertsContainer');
+          
+          const alertDiv = document.createElement('div');
+          alertDiv.className = 'alert alert-danger';
+          alertDiv.innerHTML = `
+            <strong>${data.deviceName}</strong> - Niveau de batterie critique (${data.batteryLevel}%)
+            <small class="text-muted float-end">${new Date().toLocaleString()}</small>
+          `;
+          
+          alertsContainer.insertBefore(alertDiv, alertsContainer.firstChild);
+        }
+      }
+    };
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+      <div class="col">
+        Column
+      </div>
+      
+    </div>
+  </div>
+ 
+
+
+
+<%-include('parts/bottom.ejs')%>

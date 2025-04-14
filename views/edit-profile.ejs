@@ -1,0 +1,41 @@
+<%- include('parts/top.ejs') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4>Modifier le Profil</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/update-profile">
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" name="name" class="form-control" value="<%= user.name %>" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="<%= user.email %>" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Spécialité</label>
+                            <input type="text" name="specialite" class="form-control" value="<%= user.specialite %>">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" name="numerodetelephone" class="form-control" value="<%= user.numerodetelephone %>">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="/parametres&profil" class="btn btn-secondary">Annuler</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/bottom.ejs') %>

@@ -1,0 +1,59 @@
+<%- include('parts/top.ejs')%>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tableau de bord respirateurs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="dashboard">
+    <section class="left">
+      <label>Période sélectionnable :</label>
+      <input type="text" placeholder="Choisir une période">
+
+      <label>Type de données à afficher :</label>
+      <div class="checkboxes">
+        <label><input type="checkbox"> Batteriee 🔋</label>
+        <label><input type="checkbox"> Oxygène 🫧</label>
+        <label><input type="checkbox"> Alertes 🚨</label>
+      </div>
+
+      <h3>Graphiques Dynamiques & Statistiques Clés :</h3>
+      <h4>Évolution du niveau de batterie 📉</h4>
+      <img src="uploads/image1.png" alt="Graphique batterie" class="graph">
+
+      <h4>Pression et débit d'oxygène 📊</h4>
+      <img src="uploads/image2.png" alt="Graphique oxygène" class="graph">
+    </section>
+
+    <section class="right">
+      <label>Nombre d'alertes par type 📌</label>
+      <input type="text" placeholder="ex: 5 anomalies">
+
+      <label>🔋 Moyenne du niveau de batterie sur la période sélectionnée</label>
+      <input type="text" placeholder="ex: 75%">
+
+      <label>🫧 Débit moyen d’oxygène</label>
+      <input type="text" placeholder="ex: 2.3 L/min">
+
+      <label>🚨 Nombre total d’alertes reçues</label>
+      <input type="text" placeholder="ex: 12 alertes">
+
+      <ul class="features">
+        <li>* Mode sombre 🌙</li>
+        <li>* Comparaison entre plusieurs respirateurs.</li>
+        <li>* Alertes prédictives basées sur l’historique des données 📝.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#">📞 Contacts d’urgence et support technique</a>
+    <a href="#">🔒 Mentions légales et confidentialité</a>
+  </footer>
+</body>
+</html>
+
+  <%-include('parts/bottom.ejs')%>

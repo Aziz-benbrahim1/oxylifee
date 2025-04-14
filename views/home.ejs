@@ -1,0 +1,193 @@
+<%- include('parts/top.ejs')%>
+
+        <!-- end header section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="container">
+          <!-- Barre de recherche -->
+          <div class="row mb-4">
+            <div class="col-md-6 mx-auto">
+              <div class="input-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom..." aria-label="Rechercher">
+                <button class="btn btn-outline-success" type="button" id="searchButton">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Conteneur des cartes -->
+          <div class="container" id="cardsContainer">
+            <% homes.forEach(home => { %>
+              <div class="card" data-name="<%= home.name.toLowerCase() %>">
+                <a href="/homes/<%= home._id %>" target="_blank">
+                  <img src="uploads/<%= home.images %>" alt="Profile Photo">
+                  <h3><%= home.name %></h3>
+                  <p><span class="label">ID:</span> <h6><%= home._id %></h6></p>
+                  <p><span class="label">Niveau de charge:</span> <h3><%= home.chargelevel %></h3></p>
+                </a>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+
+
+
+        
+
+
+
+        
+        <!-- Ajoutez ce script à la fin -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const cards = document.querySelectorAll('.card');
+        
+            function filterCards() {
+              const searchTerm = searchInput.value.toLowerCase();
+              
+              cards.forEach(card => {
+                const cardName = card.getAttribute('data-name');
+                if (cardName.includes(searchTerm)) {
+                  card.style.display = 'block';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            }
+        
+            // Écouteurs d'événements
+            searchButton.addEventListener('click', filterCards);
+            searchInput.addEventListener('keyup', filterCards);
+          });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- slider section -->
+        
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>Profile Cards</title>
+          <style>
+            * {
+              box-sizing: border-box;
+            }
+        
+            body {
+              margin: 0;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              background-color: #f5f5f5;
+              color: #000;
+            }
+        
+           
+        
+            .container {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 20px;
+              padding: 30px;
+            }
+        
+            .card {
+              background-color: white;
+              border: 2px solid #2e7d32;
+              border-radius: 10px;
+              width: 250px;
+              padding: 20px;
+              text-align: center;
+              box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              transition: transform 0.2s ease;
+            }
+        
+            .card:hover {
+              transform: scale(1.05);
+            }
+        
+            .card img {
+              width: 100px;
+              height: 100px;
+              border-radius: 50%;
+              object-fit: cover;
+              border: 3px solid #2e7d32;
+              margin-bottom: 15px;
+            }
+        
+            .card h3 {
+              margin: 10px 0 5px;
+              color: #2e7d32;
+            }
+        
+            .card p {
+              margin: 6px 0;
+              font-size: 14px;
+              color: #333;
+            }
+        
+            .label {
+              font-weight: bold;
+              color: black;
+            }
+          </style>
+        </head>
+        <body>
+        
+         
+        
+          <div class="container">
+           
+        
+         
+        
+        </body>
+        </html>
+        
+        
+       
+          
+      
+    
+    
+     
+    
+    
+     <%-include('parts/bottom.ejs')%>
